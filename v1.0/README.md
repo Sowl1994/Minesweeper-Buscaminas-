@@ -2,6 +2,7 @@
 Práctica final de la asignatura Metodologías de la Programación(MP)
 
 Ejecución:
+
 1º make en terminal
 
 2º Introducir filas y columnas separadas por espacios
