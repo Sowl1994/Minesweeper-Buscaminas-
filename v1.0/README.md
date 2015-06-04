@@ -11,8 +11,8 @@ Ejecución:
 
 4º Introducir comandos para jugar 
 
-   a) a <fila> <columna> -> abre la casilla especificada
+      a) a <fila> <columna> -> abre la casilla especificada
    
-   b) m <fila> <columna> -> marca la casilla especificada
+      b) m <fila> <columna> -> marca la casilla especificada
 
 La partida acabará cuando todas las casillas sin mina estén abiertas.
