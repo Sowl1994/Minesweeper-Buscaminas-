@@ -20,3 +20,5 @@ Ejecución:
    	c) s <archivoDeTexto> -> guarda la partida en el archivo de texto que se le pasa
 
 La partida acabará cuando todas las casillas sin mina estén abiertas.
+
+Se adjunta una partida guardada como ejemplo para pruebas
