@@ -14,31 +14,32 @@ class CampoMinas{
 		int bombasAlrededor(int fila, int columna){
 			minasCercanas = 0;
 
-			if (t.getElemento(fila-1,columna).bomba && fila-1 >= 0)
+			if (fila-1 >= 0 && t.getElemento(fila-1,columna).bomba )
 				minasCercanas++;
 
-			if (t.getElemento(fila-1,columna+1).bomba && fila-1 >= 0 && columna+1 <= getColumnas()-1)
+			if (fila-1 >= 0 && columna+1 <= getColumnas()-1 && t.getElemento(fila-1,columna+1).bomba )
 				minasCercanas++;
 
-			if (t.getElemento(fila,columna+1).bomba && columna+1 <= getColumnas()-1)
+			if (columna+1 <= getColumnas()-1 && t.getElemento(fila,columna+1).bomba )
 				minasCercanas++;
 
-			if (t.getElemento(fila+1,columna+1).bomba && fila+1 <= getFilas()-1 && columna+1<= getColumnas()-1)
+			if (fila+1 <= getFilas()-1 && columna+1<= getColumnas()-1 && t.getElemento(fila+1,columna+1).bomba )
 				minasCercanas++;
 
-			if (t.getElemento(fila+1,columna).bomba && fila+1 <= getFilas()-1)
+			if ( fila+1 <= getFilas()-1 && t.getElemento(fila+1,columna).bomba)
 				minasCercanas++;
 
-			if (t.getElemento(fila+1,columna-1).bomba && fila+1 <= getFilas()-1 && columna-1>=0)
+			if (fila+1 <= getFilas()-1 && columna-1>=0 && t.getElemento(fila+1,columna-1).bomba )
 				minasCercanas++;
 
-			if (t.getElemento(fila,columna-1).bomba && columna-1>=0)
+			if ( columna-1>=0 && t.getElemento(fila,columna-1).bomba)
 				minasCercanas++;
 			
-			if (t.getElemento(fila-1,columna-1).bomba && fila-1 >= 0 && columna-1>=0)
-				minasCercanas++; 
+			if (fila-1 >= 0 && columna-1>=0 && t.getElemento(fila-1,columna-1).bomba )
+				minasCercanas++;
 
 			return minasCercanas;
+
 	}
 
 
@@ -106,10 +107,11 @@ class CampoMinas{
 
 		void marcarCasilla(int fila, int columna){
 			Casilla c = t.getElemento(fila,columna);
-
-			if(!c.abierta){
-				//Si la casilla esta marcada, le quita la marca y viceversa
-				t.setElemento(fila, columna, c.bomba, c.abierta, !c.marcada);
+			if(fila < getFilas() && fila >= 0 && columna < getColumnas() && columna >= 0){
+				if(!c.abierta){
+					//Si la casilla esta marcada, le quita la marca y viceversa
+					t.setElemento(fila, columna, c.bomba, c.abierta, !c.marcada);
+				}
 			}
 		}
 
@@ -127,7 +129,7 @@ class CampoMinas{
 			Casilla c = t.getElemento(fila,columna);
 			
 			//Comprobamos que la casilla esta cerrada
-			if(!c.abierta){
+			if(!c.abierta && !c.marcada){
 
 				//Si lo está, comprobamos que haya o no bombas alrededor
 				if (bombasAlrededor(fila, columna) == 0){
@@ -151,32 +153,41 @@ class CampoMinas{
 		void PrettyPrint(){
 			cout << "Mostrando tablero..." << endl;
 			cout << "     ";
-			for (int i = 0; i < getFilas(); ++i)
-				cout << "| " << i << " |";
+			for (int i = 0; i < getColumnas(); ++i)
+				if( i < 10) {cout << "| " << i << " |";}else{ cout << " " << i << " |";};
+
 			cout << endl;
 
-			for (int i = 0; i <= getFilas(); ++i)
+			for (int i = 0; i < getColumnas()+1; ++i)
 				cout << "-----";
 			cout << endl;
 
 			for (int i = 0; i < getFilas(); ++i){
-				cout << "| " << i << " |";
+				
+				if( i < 10) {cout << "| " << i << " |";}else{ cout << "|" << i << " |";};
+
 				for (int j = 0; j < getColumnas(); ++j){
+
 					if(t.getElemento(i,j).abierta && !t.getElemento(i,j).marcada && !t.getElemento(i,j).bomba){
-						if(bombasAlrededor(i,j) == 0)
+						if(bombasAlrededor(i,j) == 0){
 							cout << "|   |";
-						else
-							cout << "| "<< bombasAlrededor(i,j) <<" |";
+						}else{
+							int nB = bombasAlrededor(i,j);
+							if(nB == 1){ cout << "| \e[36m"<< bombasAlrededor(i,j) <<"\e[0m |"; };
+							if(nB == 2){ cout << "| \e[92m"<< bombasAlrededor(i,j) <<"\e[0m |"; };
+							if(nB > 2){ cout << "| \e[91m"<< bombasAlrededor(i,j) <<"\e[0m |"; };
+		
+						}
 					}
 					else if(!t.getElemento(i,j).abierta && t.getElemento(i,j).marcada)
-						cout << "| ? |";
+						cout << "| \e[91m?\e[0m |";
 					else 
 						cout << "| * |";
 				}
 				cout << endl;
 			}
 
-			for (int i = 0; i < getFilas()+1; ++i)
+			for (int i = 0; i < getColumnas()+1; ++i)
 				cout << "-----";
 			cout << endl;
 		}
@@ -190,7 +201,7 @@ class CampoMinas{
 				cout << "Mostrando tablero completo..." << endl;
 				cout << "     ";
 				for (int i = 0; i < getColumnas(); ++i)
-					cout << "| " << i << " |";
+					if( i < 10) {cout << "| " << i << " |";}else{ cout << " " << i << " |";};
 				cout << endl;
 
 				for (int i = 0; i < getColumnas()+1; ++i)
@@ -198,15 +209,20 @@ class CampoMinas{
 				cout << endl;
 
 				for (int i = 0; i < getFilas(); ++i){
-					cout << "| " << i << " |";
+					if( i < 10) {cout << "| " << i << " |";}else{ cout << "|" << i << " |";};
 					for (int j = 0; j < getColumnas(); ++j){
 						if (t.getElemento(i,j).bomba)
-							cout << "| X |";
+							cout << "| \e[93mX\e[0m |";
 						else{
-							if(bombasAlrededor(i,j) == 0)
+							if(bombasAlrededor(i,j) == 0){
 								cout << "|   |";
-							else
-								cout << "| "<< bombasAlrededor(i,j) <<" |";
+							}else{
+								int nB = bombasAlrededor(i,j);
+								if(nB == 1){ cout << "| \e[36m"<< bombasAlrededor(i,j) <<"\e[0m |"; };
+								if(nB == 2){ cout << "| \e[92m"<< bombasAlrededor(i,j) <<"\e[0m |"; };
+								if(nB > 2){ cout << "| \e[91m"<< bombasAlrededor(i,j) <<"\e[0m |"; };
+			
+							}
 						}
 
 					}

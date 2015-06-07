@@ -12,7 +12,7 @@ class Tablero{
 		Casilla objeto[20][20];
 	public:
 		Tablero(int f, int c){
-			assert(f<20 && c<20);
+			assert(f<=20 && c<=20);
 			filas = f;
 			columnas = c;
 		}

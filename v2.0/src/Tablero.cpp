@@ -1,70 +1,56 @@
 #include "../include/Tablero.h"
 #include <iostream>
-#include <cassert>
-#include <string.h> //borrar?
+
 using namespace std;
-//Include guard para evitar errores por redefinicions
-#ifndef TABLERO_H
-#define TABLERO_H
 
-class Tablero{
-	private:
-		int filas, columnas;
-		Casilla *tabDinamico;
-		Tablero(const Tablero& t);
-		Tablero& operator=(const Tablero& t);
+Tablero::Tablero(int f, int c){
+	filas = f;
+	columnas = c;
+	tabDinamico = new Casilla [f*c];
+}
 
-	public:
-		Tablero(int f, int c){
-			filas = f;
-			columnas = c;
-			tabDinamico = new Casilla [f*c];
-		}
+Tablero::~Tablero(){
+	delete[] tabDinamico;
+}
 
-		~Tablero(){
-			delete[] tabDinamico;
-		}
+int Tablero::getFilas() const{
+	return filas;
+}
 
-		int getFilas() const{
-			return filas;
-		}
+void Tablero::setTablero(int f, int c){
+	tabDinamico = new Casilla [f*c];
+}
 
-		void setTablero(int f, int c){
-			tabDinamico = new Casilla [f*c];
-		}
+void Tablero::setFilas(int fi) {
+	filas = fi;
+}
 
-		//borrar?
-		void setFilas(int fi) {
-			filas = fi;
-		}
-		void setColumnas(int co){
-			columnas = co;
-		}
+void Tablero::setColumnas(int co){
+	columnas = co;
+}
 
-		int getColumnas() const{
-			return columnas;
-		}
+int Tablero::getColumnas() const{
+	return columnas;
+}
 
-		//Deprecated
-		Casilla getElemento(int fila, int col) const{
-			return tabDinamico[(fila*columnas)+col];
-		}
+//Deprecated
+Casilla Tablero::getElemento(int fila, int col) const{
+	return tabDinamico[(fila*columnas)+col];
+}
 
-		//Deprecated
-		void setElemento(int &fila, int &col, bool bomb, bool open, bool mark){
-			Casilla aCopiar = {bomb,open,mark};
-			tabDinamico[(fila*columnas)+col] = aCopiar;	
-		}
+//Deprecated
+void Tablero::setElemento(int &fila, int &col, bool bomb, bool open, bool mark){
+	Casilla aCopiar = {bomb,open,mark};
+	tabDinamico[(fila*columnas)+col] = aCopiar;	
+}
 
-		const Casilla& operator()(int fila, int col)const{
-			return tabDinamico[(fila*columnas)+col];
-		}
+const Casilla& Tablero::operator()(int fila, int col)const{
+	return tabDinamico[(fila*columnas)+col];
+}
 
-		Casilla& operator()(int &fila, int &col){
-			return tabDinamico[(fila*columnas)+col];
-		}
-
-};
+Casilla& Tablero::operator()(int &fila, int &col){
+	return tabDinamico[(fila*columnas)+col];
+}
 
 ostream& operator << (ostream &fs,const Casilla &c){
 
@@ -116,4 +102,3 @@ istream& operator >> (istream &is, Tablero &t){
 				is >> t(i,j);
 	return is;
 }
-#endif

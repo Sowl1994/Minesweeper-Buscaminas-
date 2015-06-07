@@ -20,17 +20,22 @@ using namespace std;
 
 void hacerMovimiento(CampoMinas &campo, int &f, int &c){
 	char accion;
-	cout << "Dime accion y posicion: ";
+	cout << "Dime accion y posicion: \e[36m";	
 	cin >> accion >> f >> c;
-
-	if (accion == 'a')
-		campo.abrirCasilla(f,c);
-	else if(accion == 'm')
-		campo.marcarCasilla(f,c);
-	else
-		cout << "Accion no valida, repita sentencia(solo a o m)..." << endl;
+	cout << "\e[39m";
+	if(cin.fail()){
+		cout << "Accion no valida, repita sentencia..." << endl;
+		cin.clear();
+	}else{
+		if (accion == 'a')
+			campo.abrirCasilla(f,c);
+		else if(accion == 'm')
+			campo.marcarCasilla(f,c);
+		else
+			cout << "Accion no valida, repita sentencia (a o m)..." << endl;
 	
-	campo.checkExplosion();
+		campo.checkExplosion();
+	}
 }
 
 /**
@@ -44,6 +49,9 @@ int main(){
 	int f, c, nM;
 	cout << "Dime el tamanio del tablero(filas y columnas): ";
 	cin >> f >> c;
+	if(cin.fail() || f <= 0 || c <= 0 || f > 20 || c > 20 ){
+		cout << "numero de filas o columnas erroneo" << endl;
+	}else{
 	cout << "Dime el numero de minas: ";
 	cin >> nM;
 
@@ -60,5 +68,6 @@ int main(){
 		campo.PrettyPrint();
 	}
 	cout << "HAS GANADO LA PARTIDA!" << endl;
+	}
 }
   /* Fin Fichero: BuscaMinas.cpp */
